@@ -15,12 +15,8 @@ home = [loads.washingMachine, loads.dryerMachine, loads.lightsEarly, loads.light
 #home = [loads.fridge, loads.lightsEarly, loads.lightsLate] #, loads.draw]
 D = [d for d in data.calculateDemand(sampleTime, numberOfHours, home)]
 
-sets = knap.findSets(home, D)
-print "*****************"
-print sets
-print "*****************"
+sets = knap.findSets(home, D, 1)
+for s in zip(sets, D):
+    print s
+    print
 
-print D
-
-for item in zip(sets, D):
-    print item

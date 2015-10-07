@@ -62,12 +62,13 @@ def demand(appliance, sampleTime, numberOfHours):
     maxTime = numberOfHours*60/sampleTime
     unitsPerDay = 24*60/sampleTime
     if type(appliance) is type(constant):
-        thisDemand = makeConstant(unitsPerDay, appliance.power)
+        thisDemand = makeConstant(unitsPerDay, appliance.power, appliance.std)
     if type(appliance) is type(periodic): #periodic
         separation = appliance.wavelength*unitsPerDay/24/60
         duration = appliance.duration*unitsPerDay/24/60
         power = appliance.power
-        thisDemand =  makePeriodic(unitsPerDay, separation, duration, power)
+        std = appliance.std
+        thisDemand =  makePeriodic(unitsPerDay, separation, duration, power, std)
     if type(appliance) is type(intermitent): #intermitent
         startIndex = appliance.start*unitsPerDay/24 #hour of the day
         endIndex = appliance.end*unitsPerDay/24
@@ -75,11 +76,12 @@ def demand(appliance, sampleTime, numberOfHours):
         power = appliance.power
         duration = appliance.duration
         howMany = appliance.frequency*period*24/unitsPerDay #per hour
-        thisDemand =  makeIntermitent(unitsPerDay, startIndex, period, howMany, duration, power)
+        std = appliance.std
+        thisDemand =  makeIntermitent(unitsPerDay, startIndex, period, howMany, duration, power, std)
     return thisDemand[:maxTime+1]
 
 #returns a time series of power consumption for this load
-def makeIntermitent(unitsPerDay, startIndex, period, howMany, duration, power):
+def makeIntermitent(unitsPerDay, startIndex, period, howMany, duration, power, std):
     demand = [0 for col in range(unitsPerDay+1)]
     for count in range(0,howMany+1):
         start = rn.randint(0,period)
@@ -87,20 +89,20 @@ def makeIntermitent(unitsPerDay, startIndex, period, howMany, duration, power):
         for i in range(0,width):
             index = start+i
             if index < unitsPerDay:
-               demand[startIndex+index]+= power
+               demand[startIndex+index]+= rn.normalvariate(power,std)
     return demand
 
-def makeConstant(unitsPerDay, power):
-    return [power for col in range(unitsPerDay+1)]
+def makeConstant(unitsPerDay, power, std):
+    return [rn.normalvariate(power, std) for col in range(unitsPerDay+1)]
     
         
-def makePeriodic(unitsPerDay, separation, duration, power):
+def makePeriodic(unitsPerDay, separation, duration, power, std):
     demand = [0 for col in range(unitsPerDay+1)]
     for i in range(0, unitsPerDay/separation):
         for width in range(0,duration+1):
             index = i+separation*i+width
             if index < unitsPerDay:
-               demand[index]= power
+               demand[index]= rn.normalvariate(power,std)
     return demand
 
 #print(calculateDemand(5, 12, [fridge]))

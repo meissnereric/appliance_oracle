@@ -39,32 +39,40 @@ def toWH(power):
 def toW(energy):
     # energy to power for one time step
     return int(energy/(sampleTime/60.0))
-                         
+
+###############################################
 #time units are minutes, duration, wavelength,
 #start end are in hours
+# duration is in minutes, wavelength is in minutes
+# power is the mean (or best guess) of the mean of an appliance
+# std is the standard deviation of the power usage for an appliance when it is on
+
+
+
+#############################################
+
 #not random
-periodicLoad = namedtuple("Pload", "name power duration wavelength")
+periodicLoad = namedtuple("Pload", "name power duration wavelength std")
 # frequency is how many per hour
 # is random
-intermitentLoad = namedtuple("Iload", "name power duration frequency start end")
+intermitentLoad = namedtuple("Iload", "name power duration frequency start end std")
 # simple constant load
-constantLoad = namedtuple("Cload", "name power")
+constantLoad = namedtuple("Cload", "name power std")
 #The newly created type can be used like this:
-constant = constantLoad("constant", 0)
-periodic = periodicLoad("periodic", 0,0,0)
-intermitent = intermitentLoad("intermitent", 0,0,0,0,0)
-# duration is in minutes, wavelength is in minutes
+constant = constantLoad("constant", 0, 0)
+periodic = periodicLoad("periodic", 0,0,0,0)
+intermitent = intermitentLoad("intermitent", 0,0,0,0,0,0)
 
 #HOME LOADS POSSIBLE
-draw = constantLoad("draw", -10)
-fridge = periodicLoad("fridge", -2000, 10, 60)
-airConditioner = intermitentLoad("AC", -5000, 5, 1, 12, 16) #5 minutes once per hour 12:00PM - 4:00PM
-coffeeMaker = periodicLoad("CoffeeMaker", -60, 2, 25)
-kettle = intermitentLoad("Kettle", -1000, 5, 3, 6, 8)
-lightsEarly = intermitentLoad("Lights Early", -200, 3, 3, 6, 9)
-lightsLate = intermitentLoad("Lights Late", -100, 3, 2, 17, 22)
-washingMachine = intermitentLoad("Washer", -3000, 10, 2, 11, 13)
-dryerMachine = intermitentLoad("Dryer", -1000, 20, 2, 12, 14)
+draw = constantLoad("draw", -10, 1)
+fridge = periodicLoad("fridge", -2000, 10, 60, 1)
+airConditioner = intermitentLoad("AC", -5000, 5, 1, 12, 16, 50) #5 minutes once per hour 12:00PM - 4:00PM
+coffeeMaker = periodicLoad("CoffeeMaker", -60, 2, 25, 5)
+kettle = intermitentLoad("Kettle", -1000, 5, 3, 6, 8, 100)
+lightsEarly = intermitentLoad("Lights Early", -200, 3, 3, 6, 9, 20)
+lightsLate = intermitentLoad("Lights Late", -100, 3, 2, 17, 22, 10)
+washingMachine = intermitentLoad("Washer", -3000, 10, 2, 11, 13, 300)
+dryerMachine = intermitentLoad("Dryer", -1000, 20, 2, 12, 14, 200)
 
 #Or you can use named arguments:
 #m = MyStruct(field1 = "foo", field2 = "bar", field3 = "baz")
