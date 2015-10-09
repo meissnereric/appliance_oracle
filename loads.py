@@ -65,7 +65,7 @@ intermitent = intermitentLoad("intermitent", 0,0,0,0,0,0)
 
 #HOME LOADS POSSIBLE
 draw = constantLoad("draw", -10, 1)
-fridge = periodicLoad("fridge", -2000, 10, 60, 1)
+fridge = periodicLoad("fridge", -2000, 10, 60, 50)
 airConditioner = intermitentLoad("AC", -5000, 5, 1, 12, 16, 50) #5 minutes once per hour 12:00PM - 4:00PM
 coffeeMaker = periodicLoad("CoffeeMaker", -60, 2, 25, 5)
 kettle = intermitentLoad("Kettle", -1000, 5, 3, 6, 8, 100)
