@@ -1,5 +1,5 @@
-
 from itertools import combinations
+import matplotlib.pyplot as plt
 
 # The problem, to include Gaussian input signals, can be reduced as follows:
 # For each input appliance signal, a_i, take the mean of it's Gaussian and call that a_i'
@@ -18,8 +18,19 @@ def find_sum_in_list(apps, target):
 def err(tup):
     return abs(sum(app.power for app in tup[0]) - tup[1])
 
+#Returns all combinations for a daay with error leq than X% of target power. X = 0.05, type number
+def findBestWithinX(apps, target, X):
+    results = []
+    bestWithinXCombos = []
+    for x in range(len(apps)):
+        for combo in combinations(apps,x):
+            currErr = err( (combo, target) ) 
+            if currErr <= abs(X*float(target)):
+                bestWithinXCombos.append(combo)
+    return zip(bestWithinXCombos, map(err, zip(bestWithinXCombos,[target]*len(bestWithinXCombos))))
+
 #apps only need to come in with some notion of "power" thats comparable. Could be a static power, a Gaussian mean, etc.
-def findBest(apps, target, N):
+def findBestN(apps, target, N):
     results = []
     bestNCombos = []
     for x in range(len(apps)):
@@ -36,9 +47,36 @@ def findBest(apps, target, N):
                             bestNCombos.append(combo)
     return zip(bestNCombos, map(err, zip(bestNCombos,[target]*len(bestNCombos))))
 
-def findSets(home, D, N):
+def findNSets(home, D, N):
     sets = []
     for d in D:
-        sets.append(findBest(home, d, N))
+        sets.append(findBestN(home, d, N))
     return sets
     
+def findSetsWithinX(home, D, X=0.05):
+    sets = []
+    for d in D:
+        sets.append(findBestWithinX(home, d, X))
+    return sets
+
+def getAppOnOffMap(sets, D, home):
+    A = [ [0.0] * len(D) for app in home]
+    for i, app in enumerate(home):
+        for j, on in enumerate(A[i]):
+            for combo in sets[j]:
+                if app in combo[0]:
+                    A[i][j] += 1
+            #scale the number by the number of possible combinations for that timestep
+            if len(sets[j]) > 0:
+                A[i][j] = A[i][j] / float(len(sets[j]))
+    return A
+
+def plotOnOffMap(lstA, D):
+    plt.figure( figsize=(10,7.5))
+    plt.subplot(len(lstA)+1,1,1)
+    plt.plot(D)
+    for i, A in enumerate(lstA):
+        plt.subplot(len(lstA)+1,1,2+i)
+        plt.imshow(A, cmap='Greys', interpolation='nearest')
+    plt.show()
+

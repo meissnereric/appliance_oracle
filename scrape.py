@@ -54,5 +54,5 @@ def getWeatherTable(table, hourID, tempID, skyID, mst):
     return solarList
 
 sixDays = getWeather()
-for i in range(0, len(sixDays)):
-    print(sixDays[i].date.format('YYYY-MM-DD HH ')+str(sixDays[i].temp)+' '+str(sixDays[i].sky))
+#for i in range(0, len(sixDays)):
+    #print(sixDays[i].date.format('YYYY-MM-DD HH ')+str(sixDays[i].temp)+' '+str(sixDays[i].sky))
