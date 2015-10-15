@@ -54,7 +54,7 @@ def getSunIndexes(date, sampleTime):
 def calculateDemand(sampleTime, numberOfHours, home):
     #takes a scaling factor and the list of appliances in the home
     eachLoad = map(lambda appliance: demand(appliance, sampleTime, numberOfHours), home)
-    return np.array([sum(x) for x in zip(*eachLoad)])
+    return np.array([sum(x) for x in zip(*eachLoad)]), zip(eachLoad,home)
 
 #takes a load and returns a time series of power consumption for this load
 def demand(appliance, sampleTime, numberOfHours):
