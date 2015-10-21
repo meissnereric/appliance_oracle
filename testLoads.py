@@ -32,7 +32,7 @@ def runTests():
 #loads.dryerMachine,
 #list of loads in the home
     home = [loads.washingMachine, loads.dryerMachine, loads.lightsEarly, loads.lightsLate, loads.fridge, loads.kettle,
-            loads.coffeeMaker , loads.airConditioner]
+            loads.coffeeMaker , loads.airConditioner, loads.ac2, loads.dryer2]
 #home = [loads.fridge, loads.lightsEarly, loads.lightsLate] #, loads.draw]
     D, appsD = [d for d in data.calculateDemand(sampleTime, numberOfHours, home)]
     N = 3
@@ -50,7 +50,8 @@ def runTests():
     accuracy = getAccuracy(sets1, appsD, D)
     print accuracy
 
-#knap.plotOnOffMap([A1, A2, A3, A4], D)
+    knap.plotOnOffSingle(A1, D, home)
 
 runTests()
+
 

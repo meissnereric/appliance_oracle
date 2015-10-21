@@ -1,5 +1,6 @@
 from itertools import combinations
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter, MultipleLocator
 
 # The problem, to include Gaussian input signals, can be reduced as follows:
 # For each input appliance signal, a_i, take the mean of it's Gaussian and call that a_i'
@@ -73,10 +74,64 @@ def getAppOnOffMap(sets, D, home):
 
 def plotOnOffMap(lstA, D):
     plt.figure( figsize=(10,7.5))
-    plt.subplot(len(lstA)+1,1,1)
+    #plt.subplot(len(lstA)+1,1,1)
+    plt.imshow(lstA[0], cmap='Greys', interpolation='nearest', aspect="auto")
     plt.plot(D)
-    for i, A in enumerate(lstA):
-        plt.subplot(len(lstA)+1,1,2+i)
-        plt.imshow(A, cmap='Greys', interpolation='nearest')
+    #for i, A in enumerate(lstA):
+        #plt.subplot(len(lstA)+1,1,2+i)
+        #plt.imshow(A, cmap='Greys', interpolation='nearest')
     plt.show()
+
+def plotOnOffSingle(A, D, home):
+    fig = plt.figure()
+    #fig = plt.figure( figsize=(10,7.5))
+    fig.patch.set_facecolor('white')
+    fig.subplots_adjust(hspace=0.1)
+    sp1 = fig.add_subplot(211)
+    sp1.plot(D)
+    sp1.set_ylabel("Power Consumption (W)")
+    sp1.axes.get_xaxis().set_visible(False)
+    sp1.axes.set_xticks([])
+    sp1.spines['left'].set_visible(False)
+    sp1.spines['right'].set_visible(False)
+    sp1.spines['top'].set_visible(False)
+    sp1.tick_params(
+        axis='y',          # changes apply to the x-axis
+        which='both',      # both major and minor ticks are affected
+        right='off',      # ticks along the bottom edge are off
+        left='off',         # ticks along the top edge are off
+        labelleft='on') # labels along the bottom edge are off
+    sp1.tick_params(
+        axis='x',          # changes apply to the x-axis
+        which='both',      # both major and minor ticks are affected
+        bottom='off',      # ticks along the bottom edge are off
+        top='off',         # ticks along the top edge are off
+        labelbottom='on') # labels along the bottom edge are off
+
+    sp2 = fig.add_subplot(212)
+    sp2.imshow(A, cmap='Greys', interpolation='nearest', aspect="auto")
+    sp2.set_xlabel("Time (5 min. Intervals)")
+    sp2.set_ylabel("Appliance Running?")
+    sp2.spines['left'].set_visible(False)
+    sp2.spines['right'].set_visible(False)
+    sp2.spines['top'].set_visible(False)
+    sp2.spines['bottom'].set_visible(False)
+    sp2.set_yticks(range(len(home)))
+    sp2.set_yticklabels([app.name for app in home], fontsize=10)
+    sp2.tick_params(
+        axis='y',          # changes apply to the x-axis
+        which='both',      # both major and minor ticks are affected
+        right='off',      # ticks along the bottom edge are off
+        left='off',         # ticks along the top edge are off
+        labelleft='on') # labels along the bottom edge are off
+    sp2.tick_params(
+        axis='x',          # changes apply to the x-axis
+        which='both',      # both major and minor ticks are affected
+        bottom='off',      # ticks along the bottom edge are off
+        top='off',         # ticks along the top edge are off
+        labelbottom='on') # labels along the bottom edge are off
+    #for i, A in enumerate(lstA):
+        #plt.subplot(len(lstA)+1,1,2+i)
+        #plt.imshow(A, cmap='Greys', interpolation='nearest')
+    plt.savefig("appliances.png")
 
