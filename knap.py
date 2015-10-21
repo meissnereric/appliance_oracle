@@ -74,12 +74,12 @@ def getAppOnOffMap(sets, D, home):
 
 def plotOnOffMap(lstA, D):
     plt.figure( figsize=(10,7.5))
-    #plt.subplot(len(lstA)+1,1,1)
+    plt.subplot(len(lstA)+1,1,1)
     plt.imshow(lstA[0], cmap='Greys', interpolation='nearest', aspect="auto")
     plt.plot(D)
-    #for i, A in enumerate(lstA):
-        #plt.subplot(len(lstA)+1,1,2+i)
-        #plt.imshow(A, cmap='Greys', interpolation='nearest')
+    for i, A in enumerate(lstA):
+        plt.subplot(len(lstA)+1,1,2+i)
+        plt.imshow(A, cmap='Greys', interpolation='nearest')
     plt.show()
 
 def plotOnOffSingle(A, D, home):
@@ -130,8 +130,6 @@ def plotOnOffSingle(A, D, home):
         bottom='off',      # ticks along the bottom edge are off
         top='off',         # ticks along the top edge are off
         labelbottom='on') # labels along the bottom edge are off
-    #for i, A in enumerate(lstA):
-        #plt.subplot(len(lstA)+1,1,2+i)
-        #plt.imshow(A, cmap='Greys', interpolation='nearest')
-    plt.savefig("appliances.png")
+    #plt.savefig("appliances.png")
+    plt.show()
 
