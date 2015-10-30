@@ -130,6 +130,6 @@ def plotOnOffSingle(A, D, home):
         bottom='off',      # ticks along the bottom edge are off
         top='off',         # ticks along the top edge are off
         labelbottom='on') # labels along the bottom edge are off
-    #plt.savefig("appliances.png")
+    plt.savefig("appliances.png")
     plt.show()
 
