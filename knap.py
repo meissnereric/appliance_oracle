@@ -88,7 +88,7 @@ def plotOnOffSingle(A, D, home):
     fig.patch.set_facecolor('white')
     fig.subplots_adjust(hspace=0.1)
     sp1 = fig.add_subplot(211)
-    sp1.plot(D)
+    sp1.plot([abs(d) for d in D])
     sp1.set_ylabel("Power Consumption (W)")
     sp1.axes.get_xaxis().set_visible(False)
     sp1.axes.set_xticks([])
