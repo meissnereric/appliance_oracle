@@ -1,6 +1,7 @@
 from itertools import combinations
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter, MultipleLocator
+import plotly.plotly as py
 
 # The problem, to include Gaussian input signals, can be reduced as follows:
 # For each input appliance signal, a_i, take the mean of it's Gaussian and call that a_i'
@@ -83,8 +84,8 @@ def plotOnOffMap(lstA, D):
     plt.show()
 
 def plotOnOffSingle(A, D, home):
-    fig = plt.figure()
-    #fig = plt.figure( figsize=(10,7.5))
+    #fig = plt.figure()
+    fig = plt.figure( figsize=(10,7.5))
     fig.patch.set_facecolor('white')
     fig.subplots_adjust(hspace=0.1)
     sp1 = fig.add_subplot(211)
@@ -132,4 +133,7 @@ def plotOnOffSingle(A, D, home):
         labelbottom='on') # labels along the bottom edge are off
     plt.savefig("appliances.png")
     plt.show()
+    #unique_url = py.iplot_mpl(fig, filename="plotly_app")
+    #return unique_url
+
 
