@@ -10,9 +10,8 @@ signal_signatures = []
 
 def recognize_signtaure(signal):
     global signal_signatures
-    #print signal.data
-    #plt.plot(signal.data)
-    #plt.show()
+   # plt.plot(signal.data)
+   # plt.show()
 
     if not signal_signatures:
         new_appliance(signal.data)
@@ -23,16 +22,21 @@ def recognize_signtaure(signal):
         dist_thresh = 1000
         best_match = 'NaN'
 
+        #confusion = []
+
         # Recognize similarity using DTW
         for sig in signatures:
             dist,cost,path = dtw(signal.data, sig)
+            #confusion.append(dist)
             if (dist < dist_thresh):
                 best_match = signal_signatures[appliance_idx][0], dist
                 dist_thresh = dist
             appliance_idx += 1
 
+        #print "Confusion:"
+        #print confusion
         #print best_match[1]
-        if (best_match[1] > 130):
+        if (best_match[1] > 50):
             rospy.loginfo("New appliance detected")
             new_appliance(signal.data)
         else:
