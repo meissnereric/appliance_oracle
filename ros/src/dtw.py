@@ -1,7 +1,6 @@
 from numpy import array, zeros, argmin, inf
 from numpy.linalg import norm
 
-
 def dtw(x, y, dist=lambda x, y: norm(x - y, ord=1)):
     """ Computes the DTW of two sequences.
 

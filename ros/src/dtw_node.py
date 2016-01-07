@@ -8,6 +8,28 @@ import matplotlib.pyplot as plt
 
 signal_signatures = []
 
+#signal is a np array of current readings
+def score_all_signatures(signal):
+    global signal_signatures
+   # plt.plot(signal.data)
+   # plt.show()
+
+    if not signal_signatures:
+        new_appliance(signal)
+        return
+    else:
+        rospy.loginfo("Recognizing signature")
+        signatures = [sig[1] for sig in signal_signatures]
+        appliance_idx = 0
+
+        # Recognize similarity using DTW
+        for sig in signatures:
+            dist,cost,path = dtw(signal, sig)
+            matches.append( (signal_signatures[appliance_idx][0], dist) )
+            appliance_idx += 1
+        return matches
+
+
 def recognize_signtaure(signal):
     global signal_signatures
    # plt.plot(signal.data)

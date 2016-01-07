@@ -1,7 +1,7 @@
 from itertools import combinations
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter, MultipleLocator
-import plotly.plotly as py
+#import plotly.plotly as py
 
 # The problem, to include Gaussian input signals, can be reduced as follows:
 # For each input appliance signal, a_i, take the mean of it's Gaussian and call that a_i'
@@ -10,6 +10,9 @@ import plotly.plotly as py
 # It's clearly and definitely an NP-Complete problem, solvable by any integer programming solver available. 
 # For now I'll implement a naive, optimal solver but we can't keep that for all cases as it's too hard. Have to plug
 # into an already available solver to solve big problems
+
+def returnError(state, total_power):
+    return abs(sum(app.power for app in state) - total_power)
 
 def find_sum_in_list(apps, target):
     results = []
