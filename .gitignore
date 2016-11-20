@@ -59,3 +59,8 @@ target/
 # Misc
 *.pyc
 *.swp
+
+# Patent code
+flann_code
+homemade_sensor_data
+
